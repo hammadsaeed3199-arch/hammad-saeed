@@ -1,0 +1,331 @@
+{% style %}
+.full-width{
+  width:100%;
+  padding: {{ section.settings.sec-padding-y }}px {{ section.settings.sec-padding-x }}px;
+}
+.container-sec{
+  max-width:1440px;
+  margin: 0px auto;
+   padding: {{ section.settings.sec-padding-y }}px {{ section.settings.sec-padding-x }}px;
+}
+.heading-size{
+  font-size: {{ section.settings.sec-heading-font-size }}px;
+  color: #000;
+  margin:0px;
+  line-height:normal;
+}
+.lookbook-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px 10px;
+}
+.lookbook-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.lookbook-item img {
+  width: 100%;
+  display: block;
+  border-radius: 12px;
+}
+.lookbook-plus {
+  position: absolute;
+  background: #ffffff;
+  color: #000000;
+  font-size: 30px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 25px;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+}
+.lookbook-popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+.lookbook-popup-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  font-family: inherit;
+  text-align: left;
+}
+.lookbook-popup-content img {
+  width: 100%;
+  margin-bottom: 15px;
+  border-radius: 6px;
+}
+.lookbook-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 22px;
+  cursor: pointer;
+}
+.lookbook-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 5px 0;
+}
+.lookbook-price {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.lookbook-desc {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 15px;
+}
+.variant-options {
+  margin-bottom: 15px;
+}
+.variant-label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+.variant-buttons {
+  display: flex;
+  gap: 10px;
+}
+.variant-buttons input {
+  display: none;
+}
+.variant-buttons label {
+  border: 1px solid #ccc;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+.variant-buttons input:checked + label {
+  border-color: #000;
+  background: #000;
+  color: #fff;
+}
+.add-to-cart-btn {
+  display: block;
+  width: 100%;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 14px;
+  margin-top: 15px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.product-content-popup{
+  display:flex;
+  gap:20px;
+}
+@media screen and (max-width:992px){
+  .lookbook-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 20px 0px;
+  }
+  h2.heading-size {
+      text-align: center;
+  }
+}
+{% endstyle %}
+
+<div class="look-book-sec {% if section.settings.section-full-width == true %} full-width {% else %} container-sec {% endif %}">
+    {%- if section.settings.sec-heading != blank -%}
+        <h2 class="heading-size"> {{ section.settings.sec-heading }}</h2>
+    {% endif %}
+    <div class="lookbook-grid">
+    {% for block in section.blocks %}
+        {% assign product = all_products[block.settings.product] %}
+        {% if product %}
+        <div class="lookbook-item">
+            <img src="{{ product.featured_image | img_url: '600x600' }}" alt="{{ product.title }}">
+            
+            <!-- + icon positioned by admin settings -->
+            <div 
+            class="lookbook-plus" 
+            data-popup="popup-{{ block.id }}" 
+            style="top: {{ block.settings.pos_y }}%; left: {{ block.settings.pos_x }}%;"
+            >+</div>
+        </div>
+
+        <!-- Popup -->
+        <div id="popup-{{ block.id }}" class="lookbook-popup">
+          <div class="lookbook-popup-content">
+            <span class="lookbook-close" data-close="popup-{{ block.id }}">×</span>
+
+            <div class="product-content-popup">
+              <div class="product-img">
+                <img src="{{ product.featured_image | img_url: '600x600' }}" alt="{{ product.title }}">
+              </div>
+              <div class="product-content">
+                <div class="lookbook-title">{{ product.title }}</div>
+                <div class="lookbook-price">{{ product.price | money }}</div>
+                <div class="lookbook-desc">{{ product.description | strip_html | truncatewords: 20 }}</div>
+              </div>
+          </div>
+
+            <form method="post" action="/cart/add">
+              {% if product.options.size > 0 %}
+                {% for option in product.options_with_values %}
+                  <div class="variant-options">
+                    <div class="variant-label">{{ option.name }}</div>
+
+                    {% if option.name contains 'Color' %}
+                      <div class="variant-buttons">
+                        {% for value in option.values %}
+                          {% assign variant = product.variants | where: 'option1', value | first %}
+                          {% if variant %}
+                            <input type="radio" id="{{ option.name | handleize }}-{{ value | handleize }}" name="id" value="{{ variant.id }}" {% if forloop.first %}checked{% endif %}>
+                            <label for="{{ option.name | handleize }}-{{ value | handleize }}">{{ value }}</label>
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                      <select name="id">
+                        {% for variant in product.variants %}
+                          <option value="{{ variant.id }}">
+                            {{ variant.title }} - {{ variant.price | money }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              {% else %}
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+              {% endif %}
+
+              <button type="submit" class="add-to-cart-btn">ADD TO CART →</button>
+            </form>
+          </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>
+
+{% javascript %}
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll(".lookbook-plus").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      let id = this.getAttribute("data-popup");
+      document.getElementById(id).style.display = "flex";
+    });
+  });
+  document.querySelectorAll(".lookbook-close").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      let id = this.getAttribute("data-close");
+      document.getElementById(id).style.display = "none";
+    });
+  });
+  document.querySelectorAll(".lookbook-popup").forEach(function(popup) {
+    popup.addEventListener("click", function(e) {
+      if (e.target === this) {
+        this.style.display = "none";
+      }
+    });
+  });
+});
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Lookbook",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "section-full-width",
+      "default": true,
+      "label": "Section Full Width"
+    },
+     {
+        "type": "inline_richtext",
+        "id": "sec-heading",
+        "default": "Heading",
+        "label": "Heading"
+    },
+    {
+        "type": "range",
+        "id": "sec-heading-font-size",
+        "min": 12,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size",
+        "default": 24
+    },
+    {
+        "type": "range",
+        "id": "sec-padding-x",
+        "min": 12,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Section Padding X(px)",
+        "default": 20
+    },
+     {
+        "type": "range",
+        "id": "sec-padding-y",
+        "min": 12,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Section Padding Y(px)",
+        "default": 50
+    },
+  ],
+  "blocks": [
+    {
+      "type": "product_block",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select product"
+        },
+        {
+          "type": "range",
+          "id": "pos_x",
+          "label": "Hotspot Position X (%)",
+          "min": 0,
+          "max": 100,
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "pos_y",
+          "label": "Hotspot Position Y (%)",
+          "min": 0,
+          "max": 100,
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Lookbook Grid",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

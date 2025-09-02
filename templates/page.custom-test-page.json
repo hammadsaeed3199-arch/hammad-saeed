@@ -1,0 +1,131 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "custom_header_rcPCCU": {
+      "type": "custom-header",
+      "name": "Custom header",
+      "settings": {
+        "section-full-width": false,
+        "logo_img": "shopify://shop_images/img-logo.png",
+        "header_text": "Find the ideal gift for your loved ones.",
+        "text_size": 16,
+        "text_color": "#000000",
+        "button_text": "CHOOSE GIFT",
+        "button_link": "",
+        "button_bg": "#ffd500",
+        "button_text_color": "#000000",
+        "button_font_size": 14,
+        "header-padding-x": 20,
+        "header-padding-y": 12
+      }
+    },
+    "custom_banner_section_LahVbV": {
+      "type": "custom-banner-section",
+      "name": "Custom Banner",
+      "settings": {
+        "desktopimage": "shopify://shop_images/banner-ig.png",
+        "mobileimage": "shopify://shop_images/Frame.png",
+        "content-width": 45,
+        "desktop_content_position": "bottom-left",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "content-bg-color": "rgba(0,0,0,0)",
+        "heading": "The Gift Guide",
+        "heading-font-size": 45,
+        "text": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
+        "text-font-size": 20,
+        "text-mobile": "Discover Joy: Your Ultimate Holiday Gift Destination.",
+        "button_label": "Shop Now",
+        "button_link": "#",
+        "button-font-size": 16,
+        "button-text-color": "#ffffff",
+        "button-bg-color": "#000000",
+        "belowheading": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL",
+        "below-heading-font-size": 16,
+        "belowheadingmob": "SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR"
+      }
+    },
+    "custom_lookbook_sec_jfqcKw": {
+      "type": "custom-lookbook-sec",
+      "blocks": {
+        "product_block_kndCgb": {
+          "type": "product_block",
+          "settings": {
+            "product": "black-leather-bag",
+            "pos_x": 50,
+            "pos_y": 50
+          }
+        },
+        "product_block_yXbGkM": {
+          "type": "product_block",
+          "settings": {
+            "product": "blue-silk-tuxedo",
+            "pos_x": 70,
+            "pos_y": 60
+          }
+        },
+        "product_block_kBQUHq": {
+          "type": "product_block",
+          "settings": {
+            "product": "chequered-red-shirt",
+            "pos_x": 50,
+            "pos_y": 22
+          }
+        },
+        "product_block_XpqVyw": {
+          "type": "product_block",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "pos_x": 70,
+            "pos_y": 20
+          }
+        },
+        "product_block_Nbc7fp": {
+          "type": "product_block",
+          "settings": {
+            "product": "classic-varsity-top",
+            "pos_x": 50,
+            "pos_y": 30
+          }
+        },
+        "product_block_dJ8Wxk": {
+          "type": "product_block",
+          "settings": {
+            "product": "dark-denim-top",
+            "pos_x": 65,
+            "pos_y": 47
+          }
+        }
+      },
+      "block_order": [
+        "product_block_kndCgb",
+        "product_block_yXbGkM",
+        "product_block_kBQUHq",
+        "product_block_XpqVyw",
+        "product_block_Nbc7fp",
+        "product_block_dJ8Wxk"
+      ],
+      "name": "Lookbook Grid",
+      "settings": {
+        "section-full-width": false,
+        "sec-heading": "Tisso vison in the wild",
+        "sec-heading-font-size": 36,
+        "sec-padding-x": 20,
+        "sec-padding-y": 50
+      }
+    }
+  },
+  "order": [
+    "custom_header_rcPCCU",
+    "custom_banner_section_LahVbV",
+    "custom_lookbook_sec_jfqcKw"
+  ]
+}
